@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/allCoins"
+        android:title="@string/all_coins"
+        android:icon="@drawable/ic_all_coins"/>
+    <item
+        android:id="@+id/wishlist"
+        android:title="@string/wish_list"
+        android:icon="@drawable/ic_wishlist"/>
+    <item
+        android:id="@+id/portfolio"
+        android:title="@string/portfolio"
+        android:icon="@drawable/ic_portfolio"/>
+    <item
+        android:id="@+id/alerts"
+        android:title="@string/alerts"
+        android:icon="@drawable/ic_alerts"/>
+
+</menu>
