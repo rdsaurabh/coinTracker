@@ -6,7 +6,6 @@ import androidx.room.*
 
 @Entity(tableName = "coin_table")
 data class CoinData(
-
         @PrimaryKey
         val coinCode : String,
         val lowPrice : String,
@@ -14,13 +13,22 @@ data class CoinData(
         val lastPrice : String,
 )
 
-@Entity(tableName = "alert")
-data class Alert(
+@Entity(tableName = "key_price")
+data class KeyPrice(
         @PrimaryKey(autoGenerate = true)
-        val alertId : Long = 0L,
+        val keyPriceId : Long = 0L,
         val coinCode : String,
-        val alertPrice : Int,
-        val alertType : Int
+        val keyPriceAmount : Long,
+        val keyPriceType : Int
+)
+
+@Entity(tableName = "transactions")
+data class Transactions(
+        @PrimaryKey(autoGenerate = true)
+        val transactionId : Long = 0L,
+        val coinCode : String,
+        val transactionType : Int,
+        val transactionAmount : Long
 )
 
 @Dao
@@ -39,24 +47,62 @@ interface CoinDao{
 }
 
 @Dao
-interface AlertDao{
+interface KeyPriceDao{
     @Insert
-    fun insert(alert : Alert)
+    fun insert(keyPrice : KeyPrice)
 
     @Update
-    fun update(alert : Alert)
-    @Delete
-    fun delete(alert : Alert)
+    fun update(keyPrice : KeyPrice)
 
-    @Query("SELECT * FROM alert")
-    fun getListOfAlerts() : LiveData<List<Alert>>
+    @Delete
+    fun delete(keyPrice : KeyPrice)
+
+    @Query("SELECT * FROM key_price")
+    fun getListOfAlerts() : LiveData<List<KeyPrice>>
 }
 
-@Database(entities = [Alert::class,CoinData::class], version = 8,exportSchema = false)
+@Dao
+interface TransactionsDao {
+
+    @Insert
+    fun insert(transaction : Transactions)
+
+    @Update
+    fun update(transaction: Transactions)
+
+    @Delete
+    fun delete(transaction: Transactions)
+
+    @Query("SELECT sum(transactionAmount) from transactions")
+    fun totalInvestedAmount() : LiveData<Long>
+
+    @Query("SELECT * FROM transactions")
+    fun getListOfTransactions() : LiveData<List<Transactions>>
+
+    @Query("SELECT coinCode,sum(transactionAmount) FROM transactions GROUP BY coinCode ORDER BY sum(transactionAmount) DESC")
+    fun getListOfAmountInvestedPerCoin() : LiveData<List<AmountPerCoin>>
+
+    @Query("SELECT * FROM transactions WHERE coinCode = :coinCode")
+    fun getTransactionsOfParticularCoin(coinCode: String) : LiveData<List<Transactions>>
+
+}
+
+/*in case you only need a few columns' data instead of every column go for a model which is specific
+    for those columns.This model handles case when only two particular colums are needed
+ */
+data class AmountPerCoin(
+        val coinCode : String,
+        @ColumnInfo(name = "sum(transactionAmount)" )
+        val amount : Long
+)
+
+
+@Database(entities = [KeyPrice::class,CoinData::class,Transactions::class], version = 19,exportSchema = false)
 abstract class CoinDatabase : RoomDatabase() {
 
     abstract val coinDao: CoinDao
-    abstract val alertDao : AlertDao
+    abstract val keyPriceDao : KeyPriceDao
+    abstract val transactionsDao : TransactionsDao
 
     companion object {
 
@@ -83,3 +129,5 @@ abstract class CoinDatabase : RoomDatabase() {
         }
     }
 }
+
+

@@ -39,7 +39,7 @@ class AlertsItemTouchHelperAssistant(private val adapter :AlertsRecyclerViewAdap
 
     // deleting data from database
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        val dao = CoinDatabase.getInstance(viewHolder.itemView.context.applicationContext).alertDao
+        val dao = CoinDatabase.getInstance(viewHolder.itemView.context.applicationContext).keyPriceDao
         val alert = adapter.getItemAt(viewHolder.adapterPosition)
 
 

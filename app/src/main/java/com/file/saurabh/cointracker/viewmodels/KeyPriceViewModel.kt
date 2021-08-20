@@ -4,27 +4,28 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 import androidx.lifecycle.ViewModel
-import com.file.saurabh.cointracker.database.Alert
+
 import com.file.saurabh.cointracker.database.CoinDatabase
+import com.file.saurabh.cointracker.database.KeyPrice
 import kotlinx.coroutines.*
 
-class AlertsViewModel(private  val database: CoinDatabase) : ViewModel() {
+class KeyPriceViewModel(private  val database: CoinDatabase) : ViewModel() {
     private val scope : CoroutineScope = CoroutineScope(Job() + Dispatchers.IO)
-    private  var _alertList : LiveData<List<Alert>> = MutableLiveData()
+    private  var _keyPricesList : LiveData<List<KeyPrice>> = MutableLiveData()
 
-    val alertList : LiveData<List<Alert>>
-        get() = _alertList
+    val keyPricesList : LiveData<List<KeyPrice>>
+        get() = _keyPricesList
 
     init {
         scope.launch {
-            _alertList = getAlertsList()
+            _keyPricesList = getAlertsList()
         }
     }
 
-    private suspend fun getAlertsList() : LiveData<List<Alert>> {
+    private suspend fun getAlertsList() : LiveData<List<KeyPrice>> {
         return withContext(Dispatchers.IO){
             val list = database
-                    .alertDao
+                    .keyPriceDao
                     .getListOfAlerts()
 
             list

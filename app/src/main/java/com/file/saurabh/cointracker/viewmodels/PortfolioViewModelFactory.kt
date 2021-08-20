@@ -4,12 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.file.saurabh.cointracker.database.CoinDatabase
 
+class PortfolioViewModelFactory(private val coinDatabase : CoinDatabase) : ViewModelProvider.Factory {
 
-class AlertViewModelFactory(private val coinDatabase : CoinDatabase) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(KeyPriceViewModel::class.java)) {
-            return KeyPriceViewModel(coinDatabase) as T
+        if (modelClass.isAssignableFrom(PortfolioViewModel::class.java)) {
+            return PortfolioViewModel(coinDatabase) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
+
 }

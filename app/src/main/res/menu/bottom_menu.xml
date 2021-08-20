@@ -16,7 +16,7 @@
         android:icon="@drawable/ic_portfolio"/>
     <item
         android:id="@+id/alerts"
-        android:title="@string/alerts"
-        android:icon="@drawable/ic_alerts"/>
+        android:title="@string/key_price"
+        android:icon="@drawable/ic_key_prices"/>
 
 </menu>

@@ -103,4 +103,7 @@ dependencies {
     //To use Kotlin annotation processing tool (kapt)
     kapt("androidx.room:room-compiler:$room_version")
     //To use Kotlin Symbolic Processing (KSP)
+
+    //workmanager
+    implementation "androidx.work:work-runtime-ktx:$versions_work"
 }

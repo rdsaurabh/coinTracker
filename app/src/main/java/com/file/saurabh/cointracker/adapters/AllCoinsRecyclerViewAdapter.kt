@@ -47,6 +47,7 @@ class AllCoinsRecyclerViewAdapter :
         val coinDao = CoinDatabase.getInstance(holder.marketPrice.context)
                      .coinDao
 
+        /*this shows up the custom dialog for wish listing a coin */
         holder.itemView.setOnClickListener {
             val builder = AlertDialog.Builder(holder.itemView.context)
             builder.setMessage("Add ${holder.marketName.text} to wish list!" )
